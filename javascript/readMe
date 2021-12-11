@@ -1,2 +1,4 @@
-手动改server里面的args和func来调试。在http://localhost:8080/confirm和http://localhost:8080/queryCO两个网页点“确定”触发。
-对于query，还需要在queryCO里面分别改函数名为queryTx和queryUsr。
+手动改server.js(line 83, line 145)里面的args和func来调试。在http://localhost:8080/confirm和http://localhost:8080/queryCO两个网页点“确定”触发。
+对于query，还需要在queryCO (line 61)里面分别改函数名为queryTx和queryUsr。
+
+智能合约的名字还没改过来，还用的chargingoption，除了智能合约以外的所有文件（myStart.sh）都没改。后续可能需要改名字
