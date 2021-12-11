@@ -1,0 +1,2 @@
+手动改server里面的args和func来调试。在http://localhost:8080/confirm和http://localhost:8080/queryCO两个网页点“确定”触发。
+对于query，还需要在queryCO里面分别改函数名为queryTx和queryUsr。
