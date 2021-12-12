@@ -6,7 +6,7 @@ var invoke = require("./invokeExport.js");
 var express = require("express");
 var fs = require("fs");
 var app = express();
-var bodyParser = require("body-parser")
+var bodyParser = require("body-parser");
 
 app.use(bodyParser.urlencoded({
   extended: true
@@ -148,7 +148,6 @@ app.post('/invoke', function (request, response) {
     // ID_CO = 'vc1,1,1,0.5,2,2,1'
     // func = 'settlement'
     // ID_CO = 'vc1'
-
 
     invoke.invokecc(func, [ID_CO]).then((result) => {
       response.writeHead(200, { 'Content-Type': 'application/json' });
