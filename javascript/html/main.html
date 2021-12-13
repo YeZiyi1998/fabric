@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>区块车</title>
+		<link rel="stylesheet" href="html/style.css">
+		<link rel="stylesheet" href="html/pretty-checkbox.css">
+	</head>
+	<body>
+		<h1>区块车交易</h1>
+		<div class="search-container">
+			<form method="POST" action="/main">
+				<div class="buscar-caja">
+					<input type="text" name="query" class="buscar-txt" placeholder="输入点什么" required/>
+					<input class="buscar-btn" type="submit" value="">
+				</div>
+				<br>
+				<div class="pretty p-default p-round p-thick p-smooth">
+					<input type="radio" name="radio_type" id='0' value = '0' onclick="document.getElementsByName('check_settlement')[0].disabled=true"/>
+					<div class="state p-warning-o">
+						<label>用户ID</label>
+					</div>
+				</div>
+				<div class="pretty p-default p-round p-thick p-smooth">
+					<input type="radio" name="radio_type" id='1' value = '1' checked onclick="document.getElementsByName('check_settlement')[0].disabled=false"/>
+					<div class="state p-warning-o">
+						<label>交易ID</label>
+					</div>
+				</div>
+				<div class="pretty p-switch" style="float:right">
+					<input type="checkbox" name="check_settlement" />
+					<div class="state p-warning">
+						<label>结算</label>
+					</div>
+				</div>
+			</form>
+		</div>
+		{% if result_dic_list.length > 0 %}
+		<div class="result-container">
+			<table class="result-table">
+				<tr>
+					<th>No.</th>
+					<th>Tx</th>
+					<th>User</th>
+					<th>Caas</th>
+					<th>Start Time</th>
+					<th>End Time</th>
+					<th>Signals</th>
+					<th>Pay</th>
+					<th>Vehicle Contract State</th>
+				</tr>
+				{% for item in result_dic_list %}
+				<!-- {% if loop.index <= 10 %} -->
+				<tr>
+					<td>{{ loop.index }}</td>
+					<td>{{ item.Tx }}</td>
+					<td>{{ item.Usr }}</td>
+					<td>{{ item.Caas }}</td>
+					<td>{{ item.StartTime }}</td>
+					<td>{{ item.EndTime }}</td>
+					<td>{{ item.Signals }}</td>
+					<td>{{ item.Pay }}</td>
+					<td>{{ item.VcState }}</td>
+				</tr>
+				<!-- {% endif %} -->
+				{% endfor %}
+			</table>
+		</div>
+		{% endif %}
+	</body>
+</html>

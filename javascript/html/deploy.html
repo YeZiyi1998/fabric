@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>区块车-合约部署</title>
+		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="pretty-checkbox.css">
+	</head>
+	<body>
+		<h1>区块车合约部署</h1>
+		<form method="post" action="/main" class="form-container">
+			<input type="text" name="func" value = "deploy"  style = "display:none;">
+			<table>
+				<tr>
+					<td>tx</td>
+					<td>
+					  <input name="tx" size="20" class="input" />
+					</td>
+				  </tr>
+				  <tr>
+					<td>usr</td>
+					<td>
+					  <input name="usr" size="20" class="input" />
+					</td>
+				  </tr>
+				  <tr>
+					<td>caas</td>
+					<td>
+					  <input name="caas" size="20" class="input" />
+					</td>
+				  </tr>
+				  <tr>
+					<td>start time</td>
+					<td>
+					  <input name="startTime" size="20" class="input" />
+					</td>
+				  </tr>
+				  <tr>
+					<td>end time</td>
+					<td>
+					  <input name="endTime" size="20" class="input" />
+					</td>
+				  </tr>
+				  <tr height="30">
+					<td colspan="2" align="center">
+					  <button type="submit" id="deploy" size="20" value=100 class="upbutton"> 部署 </button>
+					</td>
+				  </tr>
+			</table>
+		</form>
+
+	</body>
+</html>

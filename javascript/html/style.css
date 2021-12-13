@@ -1,0 +1,150 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #e84118;
+}
+
+h1 {
+    position: absolute;
+    left: 50%;
+    top: 20%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    text-align: center;
+    color: lemonchiffon;
+    text-decoration: none;
+    font-family: 'Courier New', Courier, monospace;
+}
+
+.search-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.result-container {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    /* transform: translate(-50%, -50%); */
+    transform: translate(-50%, 0);
+    width: 80%;
+    text-align: center;
+}
+
+.form-container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.buscar-caja {
+    background: #2f3640;
+    height: 40px;
+    border-radius: 40px;
+    padding: 10px;
+}
+
+.buscar-btn {
+    float: right;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: #2f3640;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.4s;
+    color: white;
+    cursor: pointer;
+    border-width: 2px;
+}
+
+.buscar-txt {
+    border: none;
+    background: none;
+    outline: none;
+    float: left;
+    padding: 0 6px;
+    color: white;
+    font-size: 16px;
+    transition: 0.4s;
+    line-height: 40px;
+    width: 350px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.buscar-caja:hover > .buscar-txt {
+    width: 350px;
+    padding: 0 6px;
+}
+
+.buscar-caja:hover > .buscar-btn {
+    background: white;
+    color: black;
+}
+
+.dropdown {
+    background: #2f3640;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 15px);
+    height: 12px;
+    width: 60px;
+    border-radius: 40px;
+    transition: 0.4s;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    left: 50%;
+    transform: translate(-50%, 12px);
+    transition: 0.4s;
+    max-width: 930px;
+    width: max-content;
+    text-align: center;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    padding: 12px;
+    border-radius: 15px;
+    padding-bottom: 15px;
+}
+
+.dropdown:hover > .dropdown-content{
+    display: block;
+    background: #2f3640;
+}
+
+.win-txt {
+    border: none;
+    background: none;
+    outline: none;
+    padding: 0;
+    color: white;
+    font-size: 16px;
+    width: 55px;
+    height: 20px;
+    font-weight: bold;
+    text-align: right;
+}
+
+.win-txt:hover, :focus {
+    border-bottom: 2px solid gray;
+}
+
+.result-table {
+    display: inline-block;
+    vertical-align: top;
+    background: #2f3640;
+    color: white;
+    text-align: center;
+    border-radius: 15px;
+    padding: 12px;
+    margin: 10px;
+    position: relative;
+}
