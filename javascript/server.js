@@ -10,6 +10,9 @@ var bodyParser = require("body-parser")
 var swig=require('swig');
 const { request } = require("http");
 
+// add by cwh
+app.use(express.static(__dirname + '/html'));
+
 app.set('views', './');
 //设置html模板渲染引擎
 app.engine('html', swig.renderFile);
@@ -20,6 +23,10 @@ app.use(bodyParser.urlencoded({
     extended: true
 }));
 
+// add by cwh
+app.get('/', function (request, response) {
+  response.redirect('/main');
+});
 
 app.get('/main', function (request, response) {
     response.render('html/main', {result_dic_list: []});
