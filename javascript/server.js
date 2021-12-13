@@ -1,178 +1,151 @@
-var queryCO = require("./queryCO.js");//queryCO
-var queryTime = require("./queryTime.js");
-var queryCS = require("./queryCS.js");
-var queryList = require("./queryList.js");
+
+
+var queryTX = require("./queryTx.js");
+var queryTU = require("./queryUsr.js");
 var invoke = require("./invokeExport.js");
 var express = require("express");
-var fs = require("fs");
 var app = express();
-var bodyParser = require("body-parser");
+var fs = require("fs");
+var bodyParser = require("body-parser")
+var swig=require('swig');
+const { request } = require("http");
+
+app.set('views', './');
+//设置html模板渲染引擎
+app.engine('html', swig.renderFile);
+//设置渲染引擎为html
+app.set('view engine','html');
 
 app.use(bodyParser.urlencoded({
-  extended: true
+    extended: true
 }));
 
-app.get('/queryCO', function (request, response) {
-  response.writeHead(200, { "Content-Type": "text/html" });
-  fs.readFile("html/queryCO.html", "utf-8", function (e, data) {
-    response.write(data);
-    response.end();
-  });
+
+app.get('/main', function (request, response) {
+    response.render('html/main', {result_dic_list: []});
 });
 
-app.get('/queryTime', function (request, response) {
-  response.writeHead(200, { "Content-Type": "text/html" });
-  fs.readFile("html/queryTime.html", "utf-8", function (e, data) {
-    response.write(data);
-    response.end();
-  });
+app.get('/deploy', function (request, response) {
+  response.render('html/deploy', {});
 });
 
-app.get('/queryCS', function (request, response) {
-  response.writeHead(200, { "Content-Type": "text/html" });
-  fs.readFile("html/queryCS.html", "utf-8", function (e, data) {
-    response.write(data);
-    response.end();
-  });
-});
+app.post('/main', function (request, response) {
+    console.log(request.body);
+    func = request.body.func;
+    radio_type = request.body.radio_type;
+    check_settlement = request.body.check_settlement;
+    query = request.body.query;
+    if (func == 'deploy'){
+      console.log("deploy");
+      console.log(request.body);
+      tx = request.body.tx;
+      usr = request.body.usr;
+      caas = request.body.caas;
+      startTime = request.body.startTime;
+      endTime = request.body.endTime;
+      signals = ""
+      VcState = "1"
+      ID_CO = tx + "," + usr + "," + caas + "," + startTime + "," + endTime
+      console.log(ID_CO);
+      invoke.invokecc(func, [ID_CO]).then((result) => {
+        result_dic = {
+          "Tx": tx,
+          "Usr": usr,
+          "Caas": caas,
+          "StartTime": startTime,
+          "EndTime": endTime,
+          "VcState": VcState
+        }
+        result_dic_list = [];
+        console.log(result);
+       
+        result_dic_list.push(result_dic);
 
-app.get('/queryList', function (request, response) {
-  response.writeHead(200, { "Content-Type": "text/html" });
-  fs.readFile("html/queryList.html", "utf-8", function (e, data) {
-    response.write(data);
-    response.end();
-  });
-});
+        console.log(result_dic_list);
+        response.render('html/main', {
+          result_dic_list: result_dic_list
+        });
+      });
 
-app.get('/buyCO', function (request, response) {
-  response.writeHead(200, { "Content-Type": "text/html" });
-  fs.readFile("html/buyCO.html", "utf-8", function (e, data) {
-    response.write(data);
-    response.end();
-  });
-});
+    } else if (func == 'control') {
+      tx = request.query.tx;
+      t_i = request.query.t_i;
+      p_i = request.query.p_i;
+      soc_i = request.query.soc_i;
+      ID_CO = tx + "," + t_i + "," + p_i + "," + soc_i
+      console.log(ID_CO);
+      invoke.invokecc(func, [ID_CO]).then((result) => {
+        console.log(result);
+      });
+    } else if (radio_type == 0) { // usr
+        ID_CO = query;
+        console.log(ID_CO);
+        queryTU.queryCO(ID_CO).then((result) => {
+            result_list = result.split("}{");
+            result_dic_list = [];
+            result_list.forEach(function(item, index){
+            if (index == 0){
+              if (result_list.length > 1){
+                item = item + "}";
+              }
+            } else if (index == result_list.length - 1){
+                item = "{" + item;
+            } else {
+                item = "{" + item + "}";
+            };
+            result_dic_list.push(JSON.parse(item));
+            });
+            console.log(result_dic_list);
+            response.render('html/main',{
+            result_dic_list: result_dic_list
+            });
+        });
+    } else if (radio_type == 1) { 
+        if (check_settlement == 'on') { // settlement
+            ID_CO = query;
+            console.log(ID_CO);
+            func = "settlement";
+            invoke.invokecc(func, [ID_CO]).then((result) => {
+            console.log("settlement");
+            console.log(func);
+            console.log(ID_CO);
+            console.log(result);
+            result_dic_list = [];
+            if (result.length > 2){
+            result_dic = JSON.parse(result);
+            result_dic_list.push(result_dic);
+            } 
+            response.render('html/main', {
+                // tx: result_dic['tx'],
+                // usr: result_dic['usr'],
+                // caas: result_dic['caas'],
+                // startTime: result_dic['startTime'],
+                // endTime: result_dic['endTime'],
+                // signals: result_dic['signals'],
+                // pay: result_dic['pay'],
+                // VcState: result_dic['VcState']
+                result_dic_list: result_dic_list
+                });
+            });
+        } else { // tx
+          console.log("tx");
 
-app.get('/confirm', function (request, response) {
-  response.writeHead(200, { "Content-Type": "text/html" });
-  fs.readFile("html/confirm.html", "utf-8", function (e, data) {
-    response.write(data);
-    response.end();
-  });
-});
-
-app.get('/list', function (request, response) {
-  response.writeHead(200, { "Content-Type": "text/html" });
-  fs.readFile("html/list.html", "utf-8", function (e, data) {
-    response.write(data);
-    response.end();
-  });
-});
-
-app.get('/delist', function (request, response) {
-  response.writeHead(200, { "Content-Type": "text/html" });
-  fs.readFile("html/delist.html", "utf-8", function (e, data) {
-    response.write(data);
-    response.end();
-  });
-});
-
-app.post('/queryCO', function (request, response) {
-  ID_CO = request.body.ID_CO;
-
-  
-  ID_CO = 'usr1'
-
-  queryCO.queryCO(ID_CO).then((result) => {
-    response.writeHead(200, { 'Content-Type': 'application/json' });
-    if (result.length == 0) {
-      result = "CO not found!"
-    }
-    response.write(result);
-    response.end();
-  });
-});
-
-app.post('/queryList', function (request, response) {
-  queryList.queryList().then((result) => {
-    response.writeHead(200, { 'Content-Type': 'application/json' });
-    if (result.length == 0) {
-      result = "There is not list"
-    }
-    response.write(result);
-    response.end();
-  });
-});
-
-app.post('/queryTime', function (request, response) {
-  T_charge = request.body.T_charge;
-  queryTime.queryTime(T_charge).then((result) => {
-    response.writeHead(200, { 'Content-Type': 'application/json' });
-    console.log(result);
-
-    response.write(result);
-    response.end();
-  });
-});
-
-app.post('/queryCS', function (request, response) {
-  // console.log(request);
-  T_arrive = request.body.T_arrive;
-  queryCS.queryCS(T_arrive).then((result) => {
-    // console.log(result);
-    response.writeHead(200, { 'Content-Type': 'application/json' });
-    response.write(result);
-    response.end();
-  });
-});
-
-app.post('/invoke', function (request, response) {
-  func = request.body.func
-  console.log(func)
-  if (func == 'buyCO') { // to create new co
-    ID_CO = request.body.ID_CO;
-    ID_car = request.body.ID_car;
-    CO_T = request.body.CO_T;
-    T_charge = request.body.T_charge;
-    invoke.invokecc(func, [ID_CO, ID_car, CO_T, T_charge]).then((result) => {
-      response.writeHead(200, { 'Content-Type': 'application/json' });
-      
-      if(result == 200) response.write("Success, CO bought!");
-      response.end();
-    });
-  } else if (func == 'confirm') {
-    ID_CO = request.body.ID_CO;
-
-    func = 'deploy'
-    ID_CO = 'vc2,usr1,caas1,20,24'
-    // func = 'control'
-    // ID_CO = 'vc1,1,1,0.5,2,2,1'
-    // func = 'settlement'
-    // ID_CO = 'vc1'
-
-    invoke.invokecc(func, [ID_CO]).then((result) => {
-      response.writeHead(200, { 'Content-Type': 'application/json' });
-      if(result == 200) response.write("Success, CO confirmed！");
-      response.end();
-    });
-  } else if (func == 'list') {
-    ID_CO = request.body.ID_CO;
-    CO_price = request.body.CO_price;
-    invoke.invokecc(func, [ID_CO,CO_price]).then((result) => {
-      response.writeHead(200, { 'Content-Type': 'application/json' });
-      if(result == 200) response.write("Success, CO listed！");
-      response.end();
-    });
-  } else if (func == 'delist') {
-    ID_CO = request.body.ID_CO;
-    ID_car = request.body.ID_car;
-    invoke.invokecc(func, [ID_CO,ID_car]).then((result) => {
-      response.writeHead(200, { 'Content-Type': 'application/json' });
-      if(result == 200) response.write("Success, CO delisted！");
-      response.end();
-    });
-  };
-
+            ID_CO = query;
+            console.log(ID_CO);
+            queryTX.queryCO(ID_CO).then((result) => {
+              result_dic_list = [];
+            if (result.length > 2){
+            result_dic = JSON.parse(result);
+            result_dic_list.push(result_dic);
+            } 
+            
+            console.log(result_dic_list);
+            response.render('html/main',{
+                result_dic_list: result_dic_list
+                });
+            });
+        };
+    };
 });
 
 app.listen(8080);
-
