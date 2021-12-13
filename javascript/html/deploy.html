@@ -8,7 +8,7 @@
 	</head>
 	<body>
 		<h1>区块车合约部署</h1>
-		<form method="post" action="/main" class="form-container">
+		<form method="post" action="/invoke" class="form-container">
 			<input type="text" name="func" value = "deploy"  style = "display:none;">
 			<table>
 				<tr>
@@ -44,10 +44,12 @@
 				  <tr height="30">
 					<td colspan="2" align="center">
 					  <button type="submit" id="deploy" size="20" value=100 class="upbutton"> 部署 </button>
+					  <a href="/">
+						  <button type="button" id="deploy" size="20" value=100 class="upbutton"> 返回 </button>
+					  </a>
 					</td>
 				  </tr>
 			</table>
 		</form>
-
 	</body>
 </html>

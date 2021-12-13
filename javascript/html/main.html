@@ -3,26 +3,26 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>区块车</title>
-		<link rel="stylesheet" href="html/style.css">
-		<link rel="stylesheet" href="html/pretty-checkbox.css">
+		<link rel="stylesheet" href="style.css">
+		<link rel="stylesheet" href="pretty-checkbox.css">
 	</head>
 	<body>
 		<h1>区块车交易</h1>
 		<div class="search-container">
 			<form method="POST" action="/main">
 				<div class="buscar-caja">
-					<input type="text" name="query" class="buscar-txt" placeholder="输入点什么" required/>
-					<input class="buscar-btn" type="submit" value="">
+					<input type="text" name="query" class="buscar-txt" placeholder="查询或结算" required/>
+					<input class="buscar-btn" type="submit" value="" />
 				</div>
 				<br>
-				<div class="pretty p-default p-round p-thick p-smooth">
-					<input type="radio" name="radio_type" id='0' value = '0' onclick="document.getElementsByName('check_settlement')[0].disabled=true"/>
+				<div class="pretty p-default p-round p-smooth">
+					<input type="radio" name="radio_type" id='0' value='0' onclick="document.getElementsByName('check_settlement')[0].disabled=true"/>
 					<div class="state p-warning-o">
 						<label>用户ID</label>
 					</div>
 				</div>
-				<div class="pretty p-default p-round p-thick p-smooth">
-					<input type="radio" name="radio_type" id='1' value = '1' checked onclick="document.getElementsByName('check_settlement')[0].disabled=false"/>
+				<div class="pretty p-default p-round p-smooth">
+					<input type="radio" name="radio_type" id='1' value='1' checked onclick="document.getElementsByName('check_settlement')[0].disabled=false"/>
 					<div class="state p-warning-o">
 						<label>交易ID</label>
 					</div>
@@ -34,6 +34,10 @@
 					</div>
 				</div>
 			</form>
+			<br>
+			<a href="/deploy">
+				<input class="hover-btn" type="button" value="部署合约"/>
+			</a>
 		</div>
 		{% if result_dic_list.length > 0 %}
 		<div class="result-container">
