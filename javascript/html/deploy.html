@@ -3,51 +3,44 @@
 	<head>
 		<meta charset="UTF-8">
 		<title>区块车-合约部署</title>
-		<link rel="stylesheet" href="style.css">
-		<link rel="stylesheet" href="pretty-checkbox.css">
+		<!-- <link rel="stylesheet" href="style.css"> -->
+		<link rel="stylesheet" href="placeholders.css">
 	</head>
 	<body>
-		<h1>区块车合约部署</h1>
+		<!-- <h1>区块车合约部署</h1> -->
 		<form method="post" action="/main" class="form-container">
-			<input type="text" name="func" value = "deploy"  style = "display:none;">
-			<table>
-				<tr>
-					<td>tx</td>
-					<td>
-					  <input name="tx" size="20" class="input" />
-					</td>
-				  </tr>
-				  <tr>
-					<td>usr</td>
-					<td>
-					  <input name="usr" size="20" class="input" />
-					</td>
-				  </tr>
-				  <tr>
-					<td>caas</td>
-					<td>
-					  <input name="caas" size="20" class="input" />
-					</td>
-				  </tr>
-				  <tr>
-					<td>start time</td>
-					<td>
-					  <input name="startTime" size="20" class="input" />
-					</td>
-				  </tr>
-				  <tr>
-					<td>end time</td>
-					<td>
-					  <input name="endTime" size="20" class="input" />
-					</td>
-				  </tr>
-				  <tr height="30">
-					<td colspan="2" align="center">
-						<input type="submit" class="hover-btn" value='部署'> 
-						<input type="button" class="hover-btn" value='返回' onclick="window.location.href='/'" > 
-					</td>
-				  </tr>
-			</table>
+			<input type="text" name="func" value = "deploy"  style = "display:none;" />
+			<div class="form">
+				<div class="title">区块车合约部署</div>
+				<!-- <div class="subtitle">部署你的交易合约</div> -->
+				<div class="input-container ic1">
+				  <input id="tx" name="tx" class="input" type="text" placeholder=" " required/>
+				  <div class="cut cut-short-short"></div>
+				  <label for="tx" class="placeholder">合约ID</label>
+				</div>
+				<div class="input-container ic2">
+				  <input id="user" name="user" class="input" type="text" placeholder=" " required/>
+				  <div class="cut cut-short-short"></div>
+				  <label for="user" class="placeholder">用户ID</label>
+				</div>
+				<div class="input-container ic2">
+				  <input id="caas" name="caas" class="input" type="text" placeholder=" " required/>
+				  <div class="cut"></div>
+				  <label for="caas" class="placeholder">充电服务商</label>
+				</div>
+				<div class="input-container ic2">
+					<input id="startTime" name="startTime" class="input" type="text" placeholder=" " required/>
+					<div class="cut cut-short"></div>
+					<label for="startTime" class="placeholder">起始时间</label>
+				</div>
+				<div class="input-container ic2">
+					<input id="endTime" name="endTime" class="input" type="text" placeholder=" " required/>
+					<div class="cut cut-short"></div>
+					<label for="endTime" class="placeholder">终止时间</label>
+				</div>
+				<button type="text" class="submit">部署</button>
+				<input type="button" class="submit" value='返回' onclick="window.location.href='/'" > 
+			  </div>
 		</form>
 	</body>
 </html>
