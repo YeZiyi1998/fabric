@@ -8,7 +8,7 @@ body {
 h1 {
     position: absolute;
     left: 50%;
-    top: 20%;
+    top: 15%;
     transform: translate(-50%, -50%);
     width: fit-content;
     text-align: center;
@@ -124,4 +124,14 @@ h1 {
 .hover-btn:hover {
     background: #d3d6ee;
     color: black;
+}
+
+.msg {
+    position: absolute;
+    top: 65%;
+    left: 50%;
+    transform: translate(-50%, 0);
+
+    color: red;
+    text-align: center;
 }

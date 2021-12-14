@@ -36,6 +36,15 @@
 			</form>
 			<br>
 			<input class="hover-btn" type="button" value="部署合约" onclick="window.location.href='/deploy'" />
+			<br>
+		</div>
+		<div class='msg'>
+			{% if response_ == 1 %}
+			结算失败
+			{% endif %}
+			{% if response_ == 2 %}
+			部署失败
+			{% endif %}
 		</div>
 		{% if result_dic_list.length > 0 %}
 		<div class="result-container">
