@@ -12,7 +12,6 @@ const { request } = require("http");
 
 // add by cwh
 app.use(express.static(__dirname + '/html'));
-
 app.set('views', './');
 //设置html模板渲染引擎
 app.engine('html', swig.renderFile);
@@ -67,7 +66,10 @@ app.post('/main', function (request, response) {
         console.log(result);
        
         result_dic_list.push(result_dic);
-
+        tmp_signal = tx + "," + "1" + "," + "100" + "," + "0.5"
+        invoke.invokecc("control", [tmp_signal]).then((tmp_signal_result) => {
+          console.log(tmp_signal_result);
+        });
         console.log(result_dic_list);
         response.render('html/main', {
           result_dic_list: result_dic_list
@@ -113,27 +115,26 @@ app.post('/main', function (request, response) {
             console.log(ID_CO);
             func = "settlement";
             invoke.invokecc(func, [ID_CO]).then((result) => {
-            console.log("settlement");
-            console.log(func);
-            console.log(ID_CO);
-            console.log(result);
-            result_dic_list = [];
-            if (result.length > 2){
-            result_dic = JSON.parse(result);
-            result_dic_list.push(result_dic);
-            } 
-            response.render('html/main', {
-                // tx: result_dic['tx'],
-                // usr: result_dic['usr'],
-                // caas: result_dic['caas'],
-                // startTime: result_dic['startTime'],
-                // endTime: result_dic['endTime'],
-                // signals: result_dic['signals'],
-                // pay: result_dic['pay'],
-                // VcState: result_dic['VcState']
-                result_dic_list: result_dic_list
-                });
+              console.log(result);
+              settlement_ok = False
+              if (result == 200){
+                settlement_ok = True
+              }
+              queryTX.queryCO(ID_CO).then((result) => {
+                result_dic_list = [];
+              if (result.length > 2){
+              result_dic = JSON.parse(result);
+              result_dic_list.push(result_dic);
+              } 
+              
+              console.log(result_dic_list);
+              response.render('html/main',{
+                  result_dic_list: result_dic_list,
+                  settlement_ok: settlement_ok
+                  });
+              });
             });
+            
         } else { // tx
           console.log("tx");
 
@@ -155,4 +156,4 @@ app.post('/main', function (request, response) {
     };
 });
 
-app.listen(8080);
+app.listen(1025);
