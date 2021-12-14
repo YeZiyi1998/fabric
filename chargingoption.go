@@ -147,6 +147,17 @@ func (s *SmartContract) deploy(APIstub shim.ChaincodeStubInterface, arg []string
 		return shim.Error("Incorrect number of arguments. Expecting 5")
 	}
 
+	// if Tx already used
+	// fetch the vc according to the Tx
+	vcAsBytes1, _ := APIstub.GetState(args[0])
+	v2gcontract1 := V2Gcontract{}
+	_ = json.Unmarshal(vcAsBytes1, &v2gcontract1)
+
+	// check if the vs is in effect (deployed)
+	if v2gcontract1.VcState == strconv.Itoa(DEPLOY) {
+		return shim.Error("Tx already used")
+	}
+
 	// create a new v2gcontract
 	var v2gcontract = V2Gcontract{Tx: args[0], Usr: args[1], Caas: args[2], StartTime: args[3], EndTime: args[4], Signals: ""}
 
